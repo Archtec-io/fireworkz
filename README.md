@@ -4,7 +4,7 @@ A mod for Minetest.
 
 It adds some firework rockets.
 
-A fork of 'new_fireworks' mod.
+A fork of 'new_fireworks' mod from googol.
 
 ## Instructions
 
