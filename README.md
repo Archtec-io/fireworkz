@@ -16,7 +16,7 @@ A fork of 'new_fireworks' mod.
 
 - Source Code: LGPLv2.1+
 - Textures: CC BY-SA 4.0 (by runs)
-- Sounds: CCL, ANL
+- Sounds: See inside the 'sounds' folder.
 
 ## Depends
 
