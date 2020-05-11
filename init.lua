@@ -43,20 +43,6 @@ local variant_list = {
 	},
 }
 
--- Entity Definition
-local rocket = {
-	physical = true, --collides with things
-	wield_image = "rocket_default.png",
-	collisionbox = {0, -0.5 ,0 ,0 ,0.5 ,0},
-	visual = "sprite",
-	textures = {"rocket_default.png"},
-	timer = 0,
-	rocket_firetime = 0,
-	rocket_flytime = 0,
-}
-
-local rdt = {} --rocket data table
-
 --Functions
 
 local function default_figure(r)
@@ -156,8 +142,24 @@ local function partcl_gen(pos, tab, size_min, size_max, colour)
 	end
 end
 
+
+-- Entity Definition
+local rocket = {
+	physical = true, --collides with things
+	wield_image = "rocket_default.png",
+	collisionbox = {0, -0.5 ,0 ,0 ,0.5 ,0},
+	visual = "sprite",
+	textures = {"rocket_default.png"},
+	timer = 0,
+	rocket_firetime = 0,
+	rocket_flytime = 0,
+	rdt = {}
+}
+
+--Entity Registration
+minetest.register_entity("fireworkz:rocket", rocket)
+
 function rocket:on_activate(staticdata)
-	self.rdt = rdt
 	minetest.sound_play("fireworkz_rocket", {pos=self.object:getpos(), max_hear_distance = fireworkz.settings.max_hear_distance_launch, gain = 1,})
 	self.rocket_flytime = math.random(13,15)/10
 	self.object:setvelocity({x=0, y=9, z=0})
@@ -236,9 +238,6 @@ for _, i in pairs(variant_list) do
 		groups = {choppy = 3, explody = 1},
 
 		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-			if i.colour ~= "default" then
-				rdt = i.rdt or {{color = i.colour, figure = i.figure, form = i.form},}
-			end
 			local wielded_item = clicker:get_wielded_item()
 			local wielded_item_name = wielded_item:get_name()
 			if wielded_item_name == fireworkz.settings.igniter then
@@ -248,29 +247,23 @@ for _, i in pairs(variant_list) do
 					if rocket_node.name == node.name then
 						minetest.remove_node(pos)
 						local obj = minetest.add_entity(pos, "fireworkz:rocket")
+						local obj_ent = obj:get_luaentity()
+						obj_ent.rdt = i.rdt or {{color = i.colour, figure = i.figure, form = i.form},}
 					end
 				end, node, pos)
 			end
 		end,
 
 		on_use = function(itemstack, user, pointed_thing)
-			if i.colour ~= "default" then
-				rdt = i.rdt or {{color = i.colour, figure = i.figure, form = i.form},}
-			end
 			pos = minetest.get_pointed_thing_position(pointed_thing, above)
 			if pos then
 				local obj = minetest.add_entity(pos, "fireworkz:rocket") --activate
+				local obj_ent = obj:get_luaentity()
+				obj_ent.rdt = i.rdt or {{color = i.colour, figure = i.figure, form = i.form},}
 			end
 		end,
 	})
 end
-
-local function launch(self, pos)
-
-end
-
---Entity Registration
-minetest.register_entity("fireworkz:rocket", rocket)
 
 -- Craffitems
 
