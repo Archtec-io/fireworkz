@@ -237,7 +237,7 @@ for _, i in pairs(variant_list) do
 		sunlight_propagates = true,
 		walkable = false,
 		is_ground_content = false,
-		groups = {choppy = 3, explody = 1},
+		groups = {choppy = 3, explody = 1, firework = 1},
 
 		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 			local wielded_item = clicker:get_wielded_item()
@@ -415,6 +415,15 @@ if minetest.get_modpath("mesecons") ~= nil then
 					end
 				end
 			end,
-	}}
-})
+		}}
+	})
+	minetest.register_craft({
+		output = "fireworkz:launcher",
+		type = "shaped",
+		recipe = {
+			{"", "tnt:gunpowder", ""},
+			{"", "default:mese", ""},
+			{"", "default:steelblock", ""}
+		},
+	})
 end
