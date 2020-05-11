@@ -153,7 +153,7 @@ local rocket = {
 	timer = 0,
 	rocket_firetime = 0,
 	rocket_flytime = 0,
-	rdt = {}
+	rdt = {} -- rocket data table
 }
 
 --Entity Registration
@@ -224,6 +224,8 @@ for _, i in pairs(variant_list) do
 	end
 	inv_image = inv_image .. i.colour .. ".png"
 
+	local rdt = i.rdt or {{color = i.colour, figure = i.figure, form = i.form},}
+
 	minetest.register_node("fireworkz:rocket_"..i.figure.."_"..i.colour, {
 		description = S("Rocket").." (".. i.desc .. "|"..figure_desc..")",
 		drawtype = "plantlike",
@@ -246,9 +248,7 @@ for _, i in pairs(variant_list) do
 					local rocket_node = minetest.get_node(pos)
 					if rocket_node.name == node.name then
 						minetest.remove_node(pos)
-						local obj = minetest.add_entity(pos, "fireworkz:rocket")
-						local obj_ent = obj:get_luaentity()
-						obj_ent.rdt = i.rdt or {{color = i.colour, figure = i.figure, form = i.form},}
+						fireworkz.launch(pos, rdt)
 					end
 				end, node, pos)
 			end
@@ -257,12 +257,21 @@ for _, i in pairs(variant_list) do
 		on_use = function(itemstack, user, pointed_thing)
 			pos = minetest.get_pointed_thing_position(pointed_thing, above)
 			if pos then
-				local obj = minetest.add_entity(pos, "fireworkz:rocket") --activate
-				local obj_ent = obj:get_luaentity()
-				obj_ent.rdt = i.rdt or {{color = i.colour, figure = i.figure, form = i.form},}
+				 fireworkz.launch(pos, rdt)
 			end
 		end,
+
+		on_construct = function(pos)
+			local meta = minetest.get_meta(pos)
+			meta:set_string("firework:rdt",  minetest.serialize(rdt))
+		end,
 	})
+end
+
+fireworkz.launch = function(pos, rdt)
+	local obj = minetest.add_entity(pos, "fireworkz:rocket") --activate
+	local obj_ent = obj:get_luaentity()
+	obj_ent.rdt = rdt
 end
 
 -- Craffitems
@@ -383,3 +392,29 @@ minetest.register_craft({
 		{"", "default:coal_lump", ""}
 	},
 })
+
+--Mesecons Support
+
+if minetest.get_modpath("mesecons") ~= nil then
+	minetest.register_node("fireworkz:launcher", {
+		description = S("Firework Rocket Launcher"),
+		tiles = {"fireworkz_rocket_launcher.png"},
+		is_ground_content = false,
+		groups = {cracky = 2, stone = 1},
+		sounds = default.node_sound_stone_defaults(),
+		mesecons = {effector = {
+			action_on = function (pos, node)
+				pos.y = pos. y + 1
+				local node = minetest.get_node_or_nil(pos)
+				if node then
+					if node.name:sub(1, 16) == "fireworkz:rocket" then
+						local meta = minetest.get_meta(pos)
+						local rdt = minetest.deserialize(meta:get_string("firework:rdt"))
+						minetest.remove_node(pos)
+						fireworkz.launch(pos, rdt)
+					end
+				end
+			end,
+	}}
+})
+end
