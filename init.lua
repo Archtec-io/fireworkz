@@ -190,7 +190,7 @@ function rocket:on_step(dtime)
 	end
 	if self.timer > self.rocket_flytime then
 		if #self.rdt > 0 then
-			minetest.sound_play("fireworkz_bang", {pos= self.object:getpos(), fireworkz.settings.max_hear_distance_bang, gain = 3,})
+			minetest.sound_play("fireworkz_bang", {pos= self.object:get_pos(), max_hear_distance = fireworkz.settings.max_hear_distance_bang, gain = 3,})
 			for _, i in pairs(self.rdt) do
 				local pos = self.object:getpos()
 				if i.figure == "ball" then
