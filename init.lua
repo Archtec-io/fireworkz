@@ -174,7 +174,6 @@ function rocket:on_step(dtime)
 		local pos = self.object:getpos()
 		self.rocket_firetime = 0
 		local xrand = math.random(-15, 15) / 10
-		local zrand = math.random(-15, 15) / 10
 		minetest.add_particle({
 			pos = {x=pos.x, y=pos.y - 0.4, z=pos.z},
 			velocity = {x=xrand, y=-3, z=xrand},
@@ -255,7 +254,7 @@ for _, i in pairs(variant_list) do
 		end,
 
 		on_use = function(itemstack, user, pointed_thing)
-			pos = minetest.get_pointed_thing_position(pointed_thing, above)
+			local pos = minetest.get_pointed_thing_position(pointed_thing, false)
 			if pos then
 				 fireworkz.launch(pos, rdt)
 			end
@@ -405,7 +404,6 @@ if minetest.get_modpath("mesecons") ~= nil then
 		mesecons = {effector = {
 			action_on = function (pos, node)
 				pos.y = pos. y + 1
-				local node = minetest.get_node_or_nil(pos)
 				if node then
 					if node.name:sub(1, 16) == "fireworkz:rocket" then
 						local meta = minetest.get_meta(pos)
