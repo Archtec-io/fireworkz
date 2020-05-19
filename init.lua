@@ -254,7 +254,7 @@ for _, i in pairs(variant_list) do
 		end,
 
 		on_use = function(itemstack, user, pointed_thing)
-			local pos = minetest.get_pointed_thing_position(pointed_thing, false)
+			local pos = minetest.get_pointed_thing_position(pointed_thing, true)
 			if pos then
 				 fireworkz.launch(pos, rdt)
 			end
