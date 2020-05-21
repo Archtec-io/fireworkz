@@ -406,7 +406,6 @@ if minetest.get_modpath("mesecons") ~= nil then
 				pos.y = pos. y + 1
 				local node = minetest.get_node_or_nil(pos)
 				if node then
-					minetest.chat_send_all(node.name)
 					if node.name:sub(1, 16) == "fireworkz:rocket" then
 						local meta = minetest.get_meta(pos)
 						local rdt = minetest.deserialize(meta:get_string("firework:rdt"))
