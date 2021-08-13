@@ -4,11 +4,22 @@ fireworkz = {}
 local modname = "fireworkz"
 local modpath = minetest.get_modpath(modname)
 local S = minetest.get_translator(minetest.get_current_modname())
+local isMineClone = minetest.get_modpath("mcl_core") ~= nil
+
+local mcItemSettings = Settings(modpath .. DIR_DELIM .. "mc_items.conf")
+
+local function mcItems(name)
+  local result = name
+  if isMineClone then
+    result = mcItemSettings:get(name) or name
+  end
+  return result
+end
 
 --Settings
 fireworkz.settings = {}
-local settings = Settings(modpath .. "/fireworkz.conf")
-fireworkz.settings.igniter = settings:get("igniter") or "default:torch"
+local settings = Settings(modpath .. DIR_DELIM .. "fireworkz.conf")
+fireworkz.settings.igniter = mcItems(settings:get("igniter") or "default:torch")
 fireworkz.settings.ignition_time = tonumber(settings:get("ignition_time")) or 3
 fireworkz.settings.max_hear_distance_fuse = tonumber(settings:get("max_hear_distance_fuse")) or 5
 fireworkz.settings.max_hear_distance_launch = tonumber(settings:get("max_hear_distance_launch")) or 13
@@ -278,129 +289,135 @@ end
 minetest.register_craft({
 	output = "fireworkz:rocket_default",
 	recipe = {
-		{"tnt:gunpowder"},
-		{"default:paper"},
-		{"default:coal_lump"}
+		{mcItems("tnt:gunpowder")},
+		{mcItems("default:paper")},
+		{mcItems("default:coal_lump")}
 	},
 })
 
 minetest.register_craft({
 	output = "fireworkz:rocket_default_red",
 	recipe = {
-		{"default:tin_lump", "tnt:gunpowder", "dye:red"},
-		{"", "default:paper", ""},
-		{"", "default:coal_lump", ""}
+		{mcItems("default:tin_lump"), mcItems("tnt:gunpowder"), mcItems("dye:red")},
+		{"", mcItems("default:paper"), ""},
+		{"", mcItems("default:coal_lump"), ""}
 	},
 })
 
 minetest.register_craft({
 	output = "fireworkz:rocket_default_green",
 	recipe = {
-		{"default:tin_lump", "tnt:gunpowder", "dye:green"},
-		{"", "default:paper", ""},
-		{"", "default:coal_lump", ""}
+		{mcItems("default:tin_lump"), mcItems("tnt:gunpowder"), mcItems("dye:green")},
+		{"", mcItems("default:paper"), ""},
+		{"", mcItems("default:coal_lump"), ""}
 	},
 })
 
 minetest.register_craft({
 	output = "fireworkz:rocket_default_blue",
 	recipe = {
-		{"default:tin_lump", "tnt:gunpowder", "dye:blue"},
-		{"", "default:paper", ""},
-		{"", "default:coal_lump", ""}
+		{mcItems("default:tin_lump"), mcItems("tnt:gunpowder"), mcItems("dye:blue")},
+		{"", mcItems("default:paper"), ""},
+		{"", mcItems("default:coal_lump"), ""}
 	},
 })
 
 minetest.register_craft({
 	output = "fireworkz:rocket_default_yellow",
 	recipe = {
-		{"default:tin_lump", "tnt:gunpowder", "dye:yellow"},
-		{"", "default:paper", ""},
-		{"", "default:coal_lump", ""}
+		{mcItems("default:tin_lump"), mcItems("tnt:gunpowder"), mcItems("dye:yellow")},
+		{"", mcItems("default:paper"), ""},
+		{"", mcItems("default:coal_lump"), ""}
 	},
 })
 
 minetest.register_craft({
 	output = "fireworkz:rocket_default_white",
 	recipe = {
-		{"default:tin_lump", "tnt:gunpowder", "dye:white"},
-		{"", "default:paper", ""},
-		{"", "default:coal_lump", ""}
+		{mcItems("default:tin_lump"), mcItems("tnt:gunpowder"), mcItems("dye:white")},
+		{"", mcItems("default:paper"), ""},
+		{"", mcItems("default:coal_lump"), ""}
 	},
 })
 
 minetest.register_craft({
 	output = "fireworkz:rocket_ball_red",
 	recipe = {
-		{"default:iron_lump", "tnt:gunpowder", "dye:red"},
-		{"", "default:paper", ""},
-		{"", "default:coal_lump", ""}
+		{mcItems("default:iron_lump"), mcItems("tnt:gunpowder"), mcItems("dye:red")},
+		{"", mcItems("default:paper"), ""},
+		{"", mcItems("default:coal_lump"), ""}
 	},
 })
 
 minetest.register_craft({
 	output = "fireworkz:rocket_ball_green",
 	recipe = {
-		{"default:iron_lump", "tnt:gunpowder", "dye:green"},
-		{"", "default:paper", ""},
-		{"", "default:coal_lump", ""}
+		{mcItems("default:iron_lump"), mcItems("tnt:gunpowder"), mcItems("dye:green")},
+		{"", mcItems("default:paper"), ""},
+		{"", mcItems("default:coal_lump"), ""}
 	},
 })
 
 minetest.register_craft({
 	output = "fireworkz:rocket_ball_blue",
 	recipe = {
-		{"default:iron_lump", "tnt:gunpowder", "dye:blue"},
-		{"", "default:paper", ""},
-		{"", "default:coal_lump", ""}
+		{mcItems("default:iron_lump"), mcItems("tnt:gunpowder"), mcItems("dye:blue")},
+		{"", mcItems("default:paper"), ""},
+		{"", mcItems("default:coal_lump"), ""}
 	},
 })
 
 minetest.register_craft({
 	output = "fireworkz:rocket_ball_yellow",
 	recipe = {
-		{"default:iron_lump", "tnt:gunpowder", "dye:yellow"},
-		{"", "default:paper", ""},
-		{"", "default:coal_lump", ""}
+		{mcItems("default:iron_lump"), mcItems("tnt:gunpowder"), mcItems("dye:yellow")},
+		{"", mcItems("default:paper"), ""},
+		{"", mcItems("default:coal_lump"), ""}
 	},
 })
 
 minetest.register_craft({
 	output = "fireworkz:rocket_ball_white",
 	recipe = {
-		{"default:iron_lump", "tnt:gunpowder", "dye:white"},
-		{"", "default:paper", ""},
-		{"", "default:coal_lump", ""}
+		{mcItems("default:iron_lump"), mcItems("tnt:gunpowder"), mcItems("dye:white")},
+		{"", mcItems("default:paper"), ""},
+		{"", mcItems("default:coal_lump"), ""}
 	},
 })
 
 minetest.register_craft({
 	output = "fireworkz:rocket_ball_default_love_blue_white_red",
 	recipe = {
-		{"default:mese_crystal", "tnt:gunpowder", "dye:blue"},
-		{"dye:white", "default:paper", ""},
-		{"", "default:coal_lump", ""}
+		{mcItems("default:mese_crystal"), mcItems("tnt:gunpowder"), mcItems("dye:blue")},
+		{mcItems("dye:white"), mcItems("default:paper"), ""},
+		{"", mcItems("default:coal_lump"), ""}
 	},
 })
 
 minetest.register_craft({
 	output = "fireworkz:rocket_ball_default_love_green_yellow_red",
 	recipe = {
-		{"default:diamond", "tnt:gunpowder", "dye:green"},
-		{"dye:yellow", "default:paper", "dye:red"},
-		{"", "default:coal_lump", ""}
+		{"default:diamond", mcItems("tnt:gunpowder"), mcItems("dye:green")},
+		{mcItems("dye:yellow"), mcItems("default:paper"), mcItems("dye:red")},
+		{"", mcItems("default:coal_lump"), ""}
 	},
 })
 
 --Mesecons Support
 
 if minetest.get_modpath("mesecons") ~= nil then
+  local sounds
+  if isMineClone then
+    sounds = mcl_sounds.node_sound_stone_defaults()
+  else
+    sounds = default.node_sound_stone_defaults()
+  end
 	minetest.register_node("fireworkz:launcher", {
 		description = S("Firework Rocket Launcher"),
 		tiles = {"fireworkz_rocket_launcher.png"},
 		is_ground_content = false,
 		groups = {cracky = 2, stone = 1},
-		sounds = default.node_sound_stone_defaults(),
+		sounds = sounds,
 		mesecons = {effector = {
 			action_on = function (pos, node)
 				pos.y = pos. y + 1
@@ -420,9 +437,9 @@ if minetest.get_modpath("mesecons") ~= nil then
 		output = "fireworkz:launcher",
 		type = "shaped",
 		recipe = {
-			{"", "tnt:gunpowder", ""},
-			{"", "default:mese", ""},
-			{"", "default:steelblock", ""}
+			{"", mcItems("tnt:gunpowder"), ""},
+			{"", mcItems("default:mese"), ""},
+			{"", mcItems("default:steelblock"), ""}
 		},
 	})
 end
