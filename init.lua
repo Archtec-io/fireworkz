@@ -257,6 +257,10 @@ for _, i in pairs(variant_list) do
 			local pos = minetest.get_pointed_thing_position(pointed_thing, true)
 			if pos then
 				 fireworkz.launch(pos, rdt)
+				 if user:is_player() then
+					itemstack:take_item()
+					return itemstack
+				 end
 			end
 		end,
 
