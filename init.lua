@@ -160,10 +160,10 @@ local rocket = {
 minetest.register_entity("fireworkz:rocket", rocket)
 
 function rocket:on_activate(staticdata)
-	minetest.sound_play("fireworkz_rocket", {pos=self.object:getpos(), max_hear_distance = fireworkz.settings.max_hear_distance_launch, gain = 1,})
+	minetest.sound_play("fireworkz_rocket", {pos=self.object:get_pos(), max_hear_distance = fireworkz.settings.max_hear_distance_launch, gain = 1}, true)
 	self.rocket_flytime = math.random(13,15)/10
-	self.object:setvelocity({x=0, y=9, z=0})
-	self.object:setacceleration({x= math.random(-5, 5), y= 33, z= math.random(-5, 5)})
+	self.object:set_velocity({x=0, y=9, z=0})
+	self.object:set_acceleration({x= math.random(-5, 5), y= 33, z= math.random(-5, 5)})
 end
 
 -- Called periodically
@@ -171,7 +171,7 @@ function rocket:on_step(dtime)
 	self.timer = self.timer + dtime
 	self.rocket_firetime = self.rocket_firetime + dtime
 	if self.rocket_firetime > 0.1 then
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		self.rocket_firetime = 0
 		local xrand = math.random(-15, 15) / 10
 		minetest.add_particle({
@@ -189,9 +189,9 @@ function rocket:on_step(dtime)
 	end
 	if self.timer > self.rocket_flytime then
 		if #self.rdt > 0 then
-			minetest.sound_play("fireworkz_bang", {pos= self.object:get_pos(), max_hear_distance = fireworkz.settings.max_hear_distance_bang, gain = 3,})
+			minetest.sound_play("fireworkz_bang", {pos= self.object:get_pos(), max_hear_distance = fireworkz.settings.max_hear_distance_bang, gain = 3}, true)
 			for _, i in pairs(self.rdt) do
-				local pos = self.object:getpos()
+				local pos = self.object:get_pos()
 				if i.figure == "ball" then
 					partcl_gen(pos, ball_figure(0.1), 4, 4, i.color)
 				elseif i.figure == "default" then
@@ -247,7 +247,7 @@ for _, i in pairs(variant_list) do
 			local wielded_item = clicker:get_wielded_item()
 			local wielded_item_name = wielded_item:get_name()
 			if wielded_item_name == fireworkz.settings.igniter then
-				minetest.sound_play("fireworkz_fuse", {pos= pos, fireworkz.settings.max_hear_distance_fuse, gain = 1,})
+				minetest.sound_play("fireworkz_fuse", {pos= pos, fireworkz.settings.max_hear_distance_fuse, gain = 1}, true)
 				minetest.after(fireworkz.settings.ignition_time, function(node, pos)
 					local rocket_node = minetest.get_node(pos)
 					if rocket_node.name == node.name then
