@@ -147,7 +147,7 @@ end
 local rocket = {
 	physical = true, --collides with things
 	wield_image = "rocket_default.png",
-	collisionbox = {0, -0.5 ,0 ,0 ,0.5 ,0},
+	collisionbox = {-0.25, -0.5, -0.25, 0.25, 0.5, 0.25},
 	visual = "sprite",
 	textures = {"rocket_default.png"},
 	timer = 0,
