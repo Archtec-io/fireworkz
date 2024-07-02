@@ -145,11 +145,13 @@ end
 
 -- Entity Definition
 local rocket = {
-	physical = true, --collides with things
-	wield_image = "rocket_default.png",
-	collisionbox = {-0.25, -0.5, -0.25, 0.25, 0.5, 0.25},
-	visual = "sprite",
-	textures = {"rocket_default.png"},
+	initial_properties = {
+		physical = true, --collides with things
+		wield_image = "rocket_default.png",
+		collisionbox = {-0.25, -0.5, -0.25, 0.25, 0.5, 0.25},
+		visual = "sprite",
+		textures = {"rocket_default.png"},
+	},
 	timer = 0,
 	rocket_firetime = 0,
 	rocket_flytime = 0,
@@ -218,7 +220,7 @@ for _, i in pairs(variant_list) do
 		figure_desc = S("Custom")
 	end
 	local inv_image = "rocket_"
-	if not(i.figure == "") then
+	if i.figure ~= "" then
 		inv_image = inv_image .. i.figure .. "_"
 	end
 	inv_image = inv_image .. i.colour .. ".png"
